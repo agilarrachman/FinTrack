@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+<body>
+    <div class="container">
+        <h1>Pemasukan</h1>
+        <table id="customers" border="1">
+            <thead>
+                <th>Id</th>
+                <th>Tanggal</th>
+                <th>Jumlah</th>
+                <th>Deskripsi</th>
+                <th colspan="2" id="mid">Action</th>
+            </thead>
+            {% for x in income %}
+            <tr>
+                <td>{{x.id}}</td>
+                <td>{{x.tanggal}}</td>
+                <td><span id="jumlah">{{x.jumlah}}</span></td>
+                <td>{{x.deskripsi}}</td>
+                <td>
+                    <a href="update/{{x.id}}"><button id="up">update</button></a>
+                </td>
+                <td>
+                    <a href="delete/{{x.id}}"><button id="del">delete</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br><br>
+        <a href="{% url 'add' %}"><button id="new3">Tambah Pemasukkan</button></a>
+    </div>
+
+    <script>
+        // Fungsi untuk memformat angka dengan separator ribuan
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Format kolom jumlah dengan separator ribuan
+        var jumlahCells = document.querySelectorAll('#customers td:nth-child(3) span#jumlah');
+        jumlahCells.forEach(function(cell) {
+            var jumlah = parseInt(cell.innerText);
+            cell.innerText = numberWithCommas(jumlah);
+        });
+    </script>
+</body>
+
+</html>
