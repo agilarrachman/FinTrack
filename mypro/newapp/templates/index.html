@@ -53,26 +53,26 @@
   
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-          <a class="nav-link collapsed" href="{% url 'add' %}">
+          <a class="nav-link collapsed" href="{% url 'pemasukan' %}">
             <i class="fas fa-fw fa-arrow-up"></i>
-            <span>Pendapatan</span>
+            <span>Pemasukan</span>
           </a>
         </li>
   
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
-          <a class="nav-link collapsed" href="pengeluaran.php">
+          <a class="nav-link collapsed" href="{% url 'pengeluaran' %}">
             <i class="fas fa-fw fa-arrow-down"></i>
             <span>Pengeluaran</span>
           </a>
         </li>
   
         <!-- Sidebar Toggler (Sidebar) -->
-        <div class="text-center d-none d-md-inline mt-3">
+        <div class="text-center d-none d-md-inline">
           <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
       </ul>
-      <!-- End of Sidebar -->
+      <!-- End of Sidebar -->    
   
       <!-- Content Wrapper -->
       <div id="content-wrapper" class="d-flex flex-column">
@@ -86,7 +86,7 @@
   
             <!-- Topbar Search -->
             <h1>
-              Selamat Datang di FinTrack
+              Dashboard
             </h1>
           </nav>
           <!-- End of Topbar -->
@@ -94,12 +94,6 @@
         <!-- Begin Page Content -->
         <!-- Begin Page Content -->
         <div class="container-fluid">
-            <!-- Page Heading -->
-            <div
-              class="d-sm-flex align-items-center justify-content-between mb-4"
-            >
-              <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            </div>
 
             <!-- Content Row -->
             <div class="row">
@@ -139,7 +133,7 @@
                           Pengeluaran (Hari Ini)
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                          RpRp100.000
+                          Rp100.000
                         </div>
                       </div>
                       <div class="col-auto">
@@ -167,7 +161,7 @@
                             <div
                               class="h5 mb-0 mr-3 font-weight-bold text-gray-800"
                             >
-                              RpRp100.000
+                              Rp100.000
                             </div>
                           </div>
                         </div>
@@ -265,6 +259,7 @@
               </div>
               
     </div>
+
     <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
