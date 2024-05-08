@@ -30,6 +30,7 @@
     <!-- Custom styles for this template -->
     {% load static %}
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body id="page-top">
     <!-- Page Wrapper -->
@@ -83,7 +84,7 @@
         </div>
       </ul>
       <!-- End of Sidebar -->      
-      
+
       <!-- Content Wrapper -->
       <div id="content-wrapper" class="d-flex flex-column">
         <div id="content-wrapper" class="d-flex flex-column">
@@ -127,25 +128,29 @@
                             <th>Tanggal</th>
                             <th>Jumlah</th>
                             <th>Sumber</th>
+                            <th>Deskripsi</th>
                             <th>Aksi</th>
                           </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>001</td>
-                                <td>2024-03-25</td>
-                                <td>Rp150.000</td>
-                                <td>Penggajian</td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal">
-                                        <i class="fas fa-edit"></i> Edit
-                                      </button>
-                                      <button type="button" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash-alt"></i> Hapus
-                                      </button>
-                                </td>
-                            </tr>
-                        </tbody>
+                          {% for outcome in outcomes %}
+                          <tr data-id="{{ outcome.id }}">
+                              <td>{{ outcome.id }}</td>
+                              <td>{{ outcome.tanggal|date:"Y-m-d" }}</td>
+                              <td>Rp{{ outcome.jumlah }}</td>
+                              <td>{{ outcome.sumber }}</td>
+                              <td>{{ outcome.deskripsi }}</td>
+                              <td>
+                                  <button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal" onclick="fillUpdateForm({{ outcome.id }})">
+                                      <i class="fas fa-edit"></i> Edit
+                                  </button>
+                                  <a href="#" class="btn btn-danger btn-sm" onclick="confirmDelete({{ outcome.id }})">
+                                    <i class="fas fa-trash-alt"></i> Hapus
+                                  </a>
+                              </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>                        
                       </table>
                     </div>
                   </div>
@@ -195,23 +200,23 @@
             </div>
             <div class="modal-body">
                 <!-- Form untuk add data -->
-                <form id="addForm" action="{% url 'add' %}" method="POST">
-                  {% csrf_token %} 
+                <form id="addForm" action="{% url 'add_outcome' %}" method="POST">
+                  {% csrf_token %}  <!-- Token CSRF untuk keamanan -->
                   <div class="form-group">
                       <label for="addTanggal">Tanggal</label>
-                      <input type="date" class="form-control" id="addTanggal" required>
+                      <input type="date" name="tanggal" class="form-control" id="addTanggal" required>
                   </div>
                   <div class="form-group">
                       <label for="addJumlah">Jumlah</label>
-                      <input type="number" placeholder="Masukkan Nominal Rupiah (Rp)" class="form-control" id="addJumlah" required>
+                      <input type="number" name="jumlah" placeholder="Masukkan Nominal Rupiah (Rp)" class="form-control" id="addJumlah" required>
                   </div>
                   <div class="form-group">
                       <label for="addSumber">Sumber</label>
-                      <input type="text" placeholder="Masukkan Sumber" class="form-control" id="addSumber" required>
+                      <input type="text" name="sumber" placeholder="Masukkan Sumber" class="form-control" id="addSumber" required>
                   </div>
                   <div class="form-group">
                     <label for="addDeskripsi">Deskripsi</label>
-                    <input type="text" placeholder="Masukkan Deskripsi" class="form-control" id="addDeskripsi" required>
+                    <input type="text" name="deskripsi" placeholder="Masukkan Deskripsi" class="form-control" id="addDeskripsi" required>
                   </div>
 
                   <div class="modal-footer">
@@ -240,22 +245,22 @@
             <div class="modal-body">
               <!-- Form untuk update data -->
               <form id="updateForm" method="POST">
-                {% csrf_token %}
+                {% csrf_token %}  <!-- Pastikan ada token CSRF -->
                 <div class="form-group">
                     <label for="updateTanggal">Tanggal</label>
-                    <input type="date" class="form-control" id="updateTanggal" required>
+                    <input type="date" class="form-control" name="tanggal" id="updateTanggal" required>
                 </div>
                 <div class="form-group">
                     <label for="updateJumlah">Jumlah</label>
-                    <input type="number" placeholder="Masukkan Nominal Rupiah (Rp)" class="form-control" id="updateJumlah" required>
+                    <input type="number" name="jumlah" placeholder="Masukkan Nominal Rupiah (Rp)" class="form-control" id="updateJumlah" required>
                 </div>
                 <div class="form-group">
                     <label for="updateSumber">Sumber</label>
-                    <input type="text" placeholder="Masukkan Sumber" class="form-control" id="updateSumber" required>
+                    <input type="text" name="sumber" placeholder="Masukkan Sumber" class="form-control" id="updateSumber" required>
                 </div>
                 <div class="form-group">
                   <label for="updateDeskripsi">Deskripsi</label>
-                  <input type="text" placeholder="Masukkan Deskripsi" class="form-control" id="updateDeskripsi" required>
+                  <input type="text" name="deskripsi" placeholder="Masukkan Deskripsi" class="form-control" id="updateDeskripsi" required>
                 </div>
                 
                 <div class="modal-footer">
@@ -302,7 +307,59 @@
           // Tampilkan modal
           $(updateModal).modal('show');
       }
+
+      function fillUpdateForm(outcome_id) {
+        var row = document.querySelector(`tr[data-id="${outcome_id}"]`);
+        if (row) {
+            var tanggal = row.querySelector('td:nth-child(2)').innerText.trim();  // Ambil string tanggal
+            var formattedDate = tanggal.split('/').reverse().join('-');  // Ubah ke format YYYY-MM-DD jika perlu
+    
+            document.getElementById('updateTanggal').value = formattedDate;
+    
+            var jumlah = row.querySelector('td:nth-child(3)').innerText.replace('Rp', '').replace(',', '');
+            var sumber = row.querySelector('td:nth-child(4)').innerText;
+            var deskripsi = row.querySelector('td:nth-child(5)').innerText;
+    
+            document.getElementById('updateJumlah').value = parseFloat(jumlah.trim());
+            document.getElementById('updateSumber').value = sumber.trim();
+            document.getElementById('updateDeskripsi').value = deskripsi.trim();
+    
+            document.getElementById('updateForm').action = `{% url 'update_outcome' 0 %}`.replace('0', outcome_id);
+        }
+      }
+    
+      function confirmDelete(outcome_id) {
+        // Tampilkan dialog konfirmasi dengan SweetAlert
+        Swal.fire({
+            title: 'Yakin hapus data?',
+            text: "Data yang dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Arahkan ke URL delete dengan ID yang benar
+                window.location.href = `{% url 'delete_outcome' 0 %}`.replace('0', outcome_id);
+            }
+        });
+      }
+    
+      {% if messages %}
+        {% for message in messages %}
+            Swal.fire({
+                icon: 'success',
+                title: '{{ message }}',  // Menampilkan pesan sukses
+                confirmButtonText: 'OK',  // Tambahkan teks untuk tombol
+                showConfirmButton: true  // Tampilkan tombol konfirmasi
+            });
+        {% endfor %}
+      {% endif %}
+
+    
     </script>
+    
     
   </body>
 </html>

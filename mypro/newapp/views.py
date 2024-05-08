@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Income
-from .forms import IncomeForm  # Form untuk model Income
+from .models import Income, Outcome
+from .forms import IncomeForm, OutcomeForm  
 from django.http import JsonResponse
 from django.contrib import messages
 
 # Menampilkan daftar data
 def index(request):
-    incomes = Income.objects.all()  # Mengambil semua data pendapatan
-    return render(request, 'index.html', {'incomes': incomes})
+    incomes = Income.objects.all()  
+    outcomes = Outcome.objects.all()  
+    return render(request, 'index.html', {'incomes': incomes, 'outcomes': outcomes})
 
 def pemasukan(request):
     incomes = Income.objects.all()  # Mengambil semua data pendapatan
@@ -15,8 +16,11 @@ def pemasukan(request):
     return render(request, 'pemasukan.html', {'incomes': incomes, 'form': form})
 
 def pengeluaran(request):
-    form = IncomeForm()  # Form untuk menambahkan pendapatan
-    return render(request, 'pengeluaran.html', {'form': form})
+    outcomes = Outcome.objects.all()
+    form = OutcomeForm()  # Form untuk menambahkan pendapatan
+    return render(request, 'pengeluaran.html', {'outcomes': outcomes, 'form': form})
+
+# ======= AKSI UNTUK PEMASUKAN ======== 
 
 def add_income(request):
     if request.method == 'POST':
@@ -42,3 +46,31 @@ def delete_income(request, id):
     income.delete()  # Hapus objek
     messages.success(request, "Berhasil hapus data!")  # Pesan untuk SweetAlert
     return redirect('pemasukan')  # Kembali ke halaman pemasukan setelah berhasil dihapus
+
+
+# ======= AKSI UNTUK PENGELUARAN ======== 
+
+def add_outcome(request):
+    if request.method == 'POST':
+        form = OutcomeForm(request.POST)
+        if form.is_valid():
+            form.save()  # Simpan data ke database
+            messages.success(request, "Berhasil tambah data!")  # Pesan untuk SweetAlert
+            return redirect('pengeluaran')  # Kembali ke halaman pengeluaran
+    return redirect('pengeluaran')  # Jika tidak valid, kembali ke halaman pengeluaran
+
+def update_outcome(request, id):
+    outcome = get_object_or_404(Outcome, id=id)
+    if request.method == 'POST':
+        form = OutcomeForm(request.POST, instance=outcome)
+        if form.is_valid():
+            form.save()  # Simpan perubahan ke database
+            messages.success(request, "Berhasil update data!")  # Pesan untuk SweetAlert
+            return redirect('pengeluaran')  # Kembali ke halaman pengeluaran
+    return redirect('pengeluaran')  # Redirect jika bukan POST
+
+def delete_outcome(request, id):
+    outcome = get_object_or_404(Outcome, id=id)
+    outcome.delete()  # Hapus objek
+    messages.success(request, "Berhasil hapus data!")  # Pesan untuk SweetAlert
+    return redirect('pengeluaran')  # Kembali ke halaman pengeluaran setelah berhasil dihapus
