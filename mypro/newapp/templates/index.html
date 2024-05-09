@@ -196,7 +196,7 @@
                   <div class="col-xl-8 col-lg-7">
                     <div class="card shadow mb-4">
                       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Pemasukan Bulanan</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Grafik Keuangan Bulanan</h6>
                         {% comment %} <div class="dropdown no-arrow">
                           <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -303,7 +303,8 @@
         // Data untuk chart area
         const areaData = {
           labels: ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
-          datasets: [{
+          datasets: [
+          {
             label: "Pemasukan",
             lineTension: 0.3,
             backgroundColor: "rgba(78, 115, 223, 0.05)",
@@ -317,7 +318,23 @@
             pointHitRadius: 10,
             pointBorderWidth: 2,
             data: {{ income_data|safe }}, // Ganti dengan data sesuai dengan kebutuhan Anda
-          }],
+          },
+          {
+            label: "Pengeluaran",
+            lineTension: 0.3,
+            backgroundColor: "rgba(255, 99, 132, 0.05)",
+            borderColor: "rgba(255, 99, 132, 1)",
+            pointRadius: 3,
+            pointBackgroundColor: "rgba(255, 99, 132, 1)",
+            pointBorderColor: "rgba(255, 99, 132, 1)",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(255, 99, 132, 1)",
+            pointHoverBorderColor: "rgba(255, 99, 132, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: {{ outcome_data|safe }}, // Data dummy
+          },
+          ],
         };
       
         // Konfigurasi chart area
@@ -331,41 +348,49 @@
                 left: 10,
                 right: 25,
                 top: 25,
-                bottom: 0
-              }
+                bottom: 0,
+              },
             },
             scales: {
-              xAxes: [{
-                time: {
-                  unit: 'date'
+              xAxes: [
+                {
+                  time: {
+                    unit: 'date',
+                  },
+                  gridLines: {
+                    display: true,
+                    drawBorder: true,
+                  },
+                  ticks: {
+                    maxTicksLimit: 50,
+                  },
                 },
-                gridLines: {
-                  display: true,
-                  drawBorder: true
-                },
-                ticks: {
-                  maxTicksLimit: 50
-                }
-              }],
-              yAxes: [{
-                ticks: {
-                  maxTicksLimit: 5,
-                  padding: 10,
-                  callback: function(value, index, values) {
+              ],
+              yAxes: [
+                {
+                  ticks: {
+                    maxTicksLimit: 5,
+                    padding: 10,
+                    callback: function (value) {
                     return 'Rp.' + value.toLocaleString();
-                  }
+                    },
+                  },
+                  gridLines: {
+                    color: "rgb(234, 236, 244)",
+                    zeroLineColor: "rgb(234, 236, 244)",
+                    drawBorder: false,
+                    borderDash: [2],
+                    zeroLineBorderDash: [2],
+                  },
                 },
-                gridLines: {
-                  color: "rgb(234, 236, 244)",
-                  zeroLineColor: "rgb(234, 236, 244)",
-                  drawBorder: false,
-                  borderDash: [2],
-                  zeroLineBorderDash: [2]
-                }
-              }],
+              ],
             },
             legend: {
-              display: false
+              display: true, // Tampilkan legenda
+              position: 'top', // Tempatkan legenda di atas chart
+              labels: {
+                fontColor: '#4e73df', // Warna teks legenda
+              },
             },
             tooltips: {
               backgroundColor: "rgb(255,255,255)",
@@ -382,13 +407,13 @@
               mode: 'index',
               caretPadding: 10,
               callbacks: {
-                label: function(tooltipItem, chart) {
+                label: function (tooltipItem, chart) {
                   var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
                   return datasetLabel + ': Rp.' + tooltipItem.yLabel.toLocaleString();
-                }
-              }
-            }
-          }
+                },
+              },
+            },
+          },
         };
       
         // Membuat chart area

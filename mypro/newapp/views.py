@@ -22,13 +22,26 @@ def index(request):
         .order_by('month')
     )
     
-    total_per_month = {i: 0 for i in range(1, 13)}
+    monthly_outcomes = (
+        Outcome.objects.annotate(month=TruncMonth('tanggal'))
+        .values('month')
+        .annotate(total=models.Sum('jumlah'))
+        .order_by('month')
+    )
+    
+    total_per_month_income = {i: 0 for i in range(1, 13)}
+    total_per_month_outcome = {i: 0 for i in range(1, 13)}
     
     for data in monthly_incomes:
         month = data['month'].month
-        total_per_month[month] = float(data['total']) if data['total'] else 0.0
+        total_per_month_income[month] = float(data['total']) if data['total'] else 0.0
     
-    income_data = [total_per_month[i] for i in range(1, 13)]
+    for data in monthly_outcomes:
+        month = data['month'].month
+        total_per_month_outcome[month] = float(data['total']) if data['total'] else 0.0
+    
+    income_data = [total_per_month_income[i] for i in range(1, 13)]
+    outcome_data = [total_per_month_outcome[i] for i in range(1, 13)]
     
     return render(request, 'index.html', {
         'incomes': incomes, 
@@ -36,7 +49,8 @@ def index(request):
         'total_pemasukan': total_pemasukan,
         'total_pengeluaran': total_pengeluaran,
         'sisa_uang': float(sisa_uang),
-        'income_data': income_data
+        'income_data': income_data,
+        'outcome_data': outcome_data
         })
 
 def pemasukan(request):
