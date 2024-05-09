@@ -3,12 +3,41 @@ from .models import Income, Outcome
 from .forms import IncomeForm, OutcomeForm  
 from django.http import JsonResponse
 from django.contrib import messages
+from django.db import models  
+from django.db.models import Sum, F
+from django.db.models.functions import TruncMonth
 
 # Menampilkan daftar data
 def index(request):
     incomes = Income.objects.all()  
     outcomes = Outcome.objects.all()  
-    return render(request, 'index.html', {'incomes': incomes, 'outcomes': outcomes})
+    total_pemasukan = float(incomes.aggregate(total=models.Sum('jumlah'))['total'] or 0)
+    total_pengeluaran = float(outcomes.aggregate(total=models.Sum('jumlah'))['total'] or 0)
+    sisa_uang = total_pemasukan - total_pengeluaran
+    
+    monthly_incomes = (
+        Income.objects.annotate(month=TruncMonth('tanggal'))
+        .values('month')
+        .annotate(total=models.Sum('jumlah'))
+        .order_by('month')
+    )
+    
+    total_per_month = {i: 0 for i in range(1, 13)}
+    
+    for data in monthly_incomes:
+        month = data['month'].month
+        total_per_month[month] = float(data['total']) if data['total'] else 0.0
+    
+    income_data = [total_per_month[i] for i in range(1, 13)]
+    
+    return render(request, 'index.html', {
+        'incomes': incomes, 
+        'outcomes': outcomes, 
+        'total_pemasukan': total_pemasukan,
+        'total_pengeluaran': total_pengeluaran,
+        'sisa_uang': float(sisa_uang),
+        'income_data': income_data
+        })
 
 def pemasukan(request):
     incomes = Income.objects.all()  # Mengambil semua data pendapatan

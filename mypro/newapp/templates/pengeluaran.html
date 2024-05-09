@@ -38,12 +38,13 @@
       <!-- Sidebar -->
       <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
-          <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-chart-pie"></i>
-          </div>
-          <div class="sidebar-brand-text mx-3">FinTrack</div>
-        </a>
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'index' %}">
+          
+          {% comment %} <i class="fas fa-chart-pie"></i> {% endcomment %}
+          <img src="{% static 'img/uang.png' %}" style="height: 50px; width: 50px;">
+       
+        <div class="sidebar-brand-text mx-3">FinTrack</div>
+      </a>
   
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
@@ -95,7 +96,9 @@
               <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                 <i class="fa fa-bars"></i>
               </button>        
-              <h1>Pengeluaran</h1>
+              <h1 style="font-weight: 600; color: #4E73DF;">
+                Pengeluaran
+              </h1>
             </nav>
             <!-- End of Topbar -->
             

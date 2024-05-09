@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,10 +28,11 @@
       <!-- Sidebar -->
       <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
-          <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-chart-pie"></i>
-          </div>
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'index' %}">
+          
+            {% comment %} <i class="fas fa-chart-pie"></i> {% endcomment %}
+            <img src="{% static 'img/uang.png' %}" style="height: 50px; width: 50px;">
+         
           <div class="sidebar-brand-text mx-3">FinTrack</div>
         </a>
   
@@ -85,194 +87,193 @@
             </button>
   
             <!-- Topbar Search -->
-            <h1>
+            <h1 style="font-weight: 600; color: #4E73DF;">
               Dashboard
             </h1>
           </nav>
           <!-- End of Topbar -->
   
-        <!-- Begin Page Content -->
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
 
-            <!-- Content Row -->
-            <div class="row">
-              <!-- Earnings (Monthly) Card Example -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div
-                          class="text-xs font-weight-bold text-success text-uppercase mb-1"
-                        >
-                          Pendapatan 
+              <!-- Content Row -->
+              <div class="row">
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div
+                            class="text-md font-weight-bold text-success  mb-1"
+                          >
+                            Pendapatan 
+                          </div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            Rp{{ total_pemasukan|intcomma }}
+                          </div>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                          Rp100.000
+                        <div class="col-auto">
+                          <i class="fas fa-calendar fa-2x text-gray-300"></i>
                         </div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- Earnings (Monthly) Card Example -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-danger shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div
-                          class="text-xs font-weight-bold text-danger text-uppercase mb-1"
-                        >
-                          Pengeluaran
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card border-left-danger shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div
+                            class="text-md font-weight-bold text-danger  mb-1"
+                          >
+                            Pengeluaran
+                          </div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            Rp{{ total_pengeluaran|intcomma }}
+                          </div>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                          Rp100.000
+                        <div class="col-auto">
+                          <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                         </div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- Earnings (Monthly) Card Example -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div
-                          class="text-xs font-weight-bold text-info text-uppercase mb-1"
-                        >
-                          Sisa Uang
-                        </div>
-                        <div class="row no-gutters align-items-center">
-                          <div class="col-auto">
-                            <div
-                              class="h5 mb-0 mr-3 font-weight-bold text-gray-800"
-                            >
-                              Rp100.000
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div
+                            class="text-md font-weight-bold text-info  mb-1"
+                          >
+                            Sisa Uang
+                          </div>
+                          <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                              <div
+                                class="h5 mb-0 mr-3 font-weight-bold text-gray-800"
+                              >
+                              Rp{{ sisa_uang|intcomma }}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="col-auto">
-                        <i
-                          class="fas fa-clipboard-list fa-2x text-gray-300"
-                        ></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col" style="height: auto;">
-                    <div class="progress progress-sm mr-2" style="height: 100%;">
-                      <div
-                        class="progress-bar bg-info"
-                        role="progressbar"
-                        style="width: 100%; height: 100%;"
-                        aria-valuenow=""
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      >
-                        <span>19%</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-  
-            <!-- Content Row -->
-
-            <div class="row">
-                <!-- Area Chart -->
-                <div class="col-xl-8 col-lg-7">
-                  <div class="card shadow mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 class="m-0 font-weight-bold text-primary">Pendapatan Minggu Ini</h6>
-                      <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                          <div class="dropdown-header">Dropdown Header:</div>
-                          <a class="dropdown-item" href="#">Action</a>
-                          <a class="dropdown-item" href="#">Another action</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Something else here</a>
+                        <div class="col-auto">
+                          <i
+                            class="fas fa-clipboard-list fa-2x text-gray-300"
+                          ></i>
                         </div>
                       </div>
                     </div>
-                    <div class="card-body">
-                      <div class="chart-area">
-                        <canvas id="myAreaChart"></canvas>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              
-                <!-- Pie Chart -->
-                <div class="col-xl-4 col-lg-5">
-                  <div class="card shadow mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 class="m-0 font-weight-bold text-primary">Perbandingan</h6>
-                      <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                          <div class="dropdown-header">Dropdown Header:</div>
-                          <a class="dropdown-item" href="#">Action</a>
-                          <a class="dropdown-item" href="#">Another action</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Something else here</a>
+                    {% comment %} <div class="col" style="height: auto;">
+                      <div class="progress progress-sm mr-2" style="height: 100%;">
+                        <div
+                          class="progress-bar bg-info"
+                          role="progressbar"
+                          style="width: 100%; height: 100%;"
+                          aria-valuenow=""
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        >
+                          <span>19%</span>
                         </div>
                       </div>
-                    </div>
-                    <div class="card-body">
-                      <div class="chart-pie pt-4 pb-2">
-                        <canvas id="myPieChart"></canvas>
-                      </div>
-                      <div class="mt-4 text-center small">
-                        <span class="mr-2">
-                          <i class="fas fa-circle text-primary"></i> Pendapatan
-                        </span>
-                        <span class="mr-2">
-                          <i class="fas fa-circle text-danger"></i> Pengeluaran
-                        </span>
-                        <span class="mr-2">
-                          <i class="fas fa-circle text-info"></i> Sisa
-                        </span>
-                      </div>
-                    </div>
+                    </div> {% endcomment %}
                   </div>
                 </div>
               </div>
-              
-    </div>
+    
+              <!-- Content Row -->
+              <div class="row">
+                  <!-- Area Chart -->
+                  <div class="col-xl-8 col-lg-7">
+                    <div class="card shadow mb-4">
+                      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Pemasukan Bulanan</h6>
+                        {% comment %} <div class="dropdown no-arrow">
+                          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Dropdown Header:</div>
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                          </div>
+                        </div> {% endcomment %}
+                      </div>
+                      <div class="card-body">
+                        <div class="chart-area">
+                          <canvas id="myAreaChart"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+                  <!-- Pie Chart -->
+                  <div class="col-xl-4 col-lg-5">
+                    <div class="card shadow mb-4">
+                      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Perbandingan</h6>
+                        {% comment %} <div class="dropdown no-arrow">
+                          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Dropdown Header:</div>
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                          </div>
+                        </div> {% endcomment %}
+                      </div>
+                      <div class="card-body">
+                        <div class="chart-pie pt-4 pb-2">
+                          <canvas id="myPieChart"></canvas>
+                        </div>
+                        <div class="mt-4 text-center small">
+                          <span class="mr-2">
+                            <i class="fas fa-circle text-primary"></i> Pemasukan
+                          </span>
+                          <span class="mr-2">
+                            <i class="fas fa-circle text-danger"></i> Pengeluaran
+                          </span>
+                          <span class="mr-2">
+                            <i class="fas fa-circle text-info"></i> Sisa
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-    <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span
-              >Copyright &copy; 2024 -
-              <a
-                href="#"
-                title="sharecodingan.blogspot.com"
-                target="_blank"
-                >Kelompok 4 BP2</a
-              ></span
-            >
+              </div>
+                
           </div>
-        </div>
-      </footer>
+
+          <footer class="sticky-footer bg-white">
+              <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                  <span
+                    >Copyright &copy; 2024 -
+                    <a
+                      href="#"
+                      title="sharecodingan.blogspot.com"
+                      target="_blank"
+                      >Kelompok 4 BP2</a
+                    ></span
+                  >
+                </div>
+              </div>
+          </footer>
           <!-- End of Main Content -->
         </div>
         <!-- End of Content Wrapper -->
@@ -298,11 +299,12 @@
       <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
 
       <script>
+        console.log("Income Data:", {{ income_data|safe }});
         // Data untuk chart area
         const areaData = {
-          labels: ["7 hari lalu", "6 hari lalu", "5 hari lalu", "4 hari lalu", "3 hari lalu", "2 hari lalu", "1 hari lalu"],
+          labels: ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
           datasets: [{
-            label: "Pendapatan",
+            label: "Pemasukan",
             lineTension: 0.3,
             backgroundColor: "rgba(78, 115, 223, 0.05)",
             borderColor: "rgba(78, 115, 223, 1)",
@@ -314,7 +316,7 @@
             pointHoverBorderColor: "rgba(78, 115, 223, 1)",
             pointHitRadius: 10,
             pointBorderWidth: 2,
-            data: [500000, 600000, 450000, 800000, 700000, 900000, 600000], // Ganti dengan data sesuai dengan kebutuhan Anda
+            data: {{ income_data|safe }}, // Ganti dengan data sesuai dengan kebutuhan Anda
           }],
         };
       
@@ -338,11 +340,11 @@
                   unit: 'date'
                 },
                 gridLines: {
-                  display: false,
-                  drawBorder: false
+                  display: true,
+                  drawBorder: true
                 },
                 ticks: {
-                  maxTicksLimit: 7
+                  maxTicksLimit: 50
                 }
               }],
               yAxes: [{
@@ -394,9 +396,9 @@
       
         // Data untuk chart pie
         const pieData = {
-          labels: ["Pendapatan", "Pengeluaran", "Sisa"],
+          labels: ["Pemasukan", "Pengeluaran", "Sisa"],
           datasets: [{
-            data: [500000, 300000, 200000], // Ganti dengan data sesuai dengan kebutuhan Anda
+            data: [{{ total_pemasukan }}, {{ total_pengeluaran }}, {{ sisa_uang }}],  // Pastikan data dikirim sebagai angka
             backgroundColor: ['#4e73df', '#e74a3b', '#36b9cc'],
             hoverBackgroundColor: ['#2e59d9', '#e74a3b', '#2c9faf'],
             hoverBorderColor: "rgba(234, 236, 244, 1)",
@@ -404,6 +406,7 @@
         };
       
         // Konfigurasi chart pie
+        
         const pieConfig = {
           type: 'doughnut',
           data: pieData,
@@ -418,9 +421,18 @@
               yPadding: 15,
               displayColors: false,
               caretPadding: 10,
+              callbacks: {
+                // Mengubah cara tooltip ditampilkan
+                label: function(tooltipItem, data) {
+                  const dataset = data.datasets[tooltipItem.datasetIndex];
+                  const total = dataset.data[tooltipItem.index];
+                  // Menambahkan 'Rp' dan memformat angka dengan pemisah ribuan
+                  return 'Rp' + total.toLocaleString(); 
+                }
+              }
             },
             legend: {
-              display: false
+              display: false,
             },
             cutoutPercentage: 80,
           },
